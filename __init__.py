@@ -249,17 +249,17 @@ class QNetServer:
 
             try:
                 data = any_receive(client_socket)
-                if data == 'who':
-                    response = self.who()
-                elif data == 'motd':
-                    response = self.motd()
-                else:    
-                    response = self.handle(data,client_address,client_port)
-                
                 respond = True
             except:
                 respond = False
                 self.bad(client_socket.recv(4096),client_address,client_port)
+
+            if data == 'who':
+                response = self.who()
+            elif data == 'motd':
+                response = self.motd()
+            else:
+               response = self.handle(data,client_address,client_port)
 
             if respond:
                 try:
@@ -268,7 +268,6 @@ class QNetServer:
                     print 'ERROR in Sending'
             client_socket.close()
 
-        
         server_socket.shutdown(socket.SHUT_RDWR)
         server_socket.close()
 
